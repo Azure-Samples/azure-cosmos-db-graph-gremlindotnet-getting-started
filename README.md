@@ -1,57 +1,53 @@
-# Project Name
+# Getting started with Azure Cosmos DB: Graph API
+Azure Cosmos DB is a globally distributed, multi-model database for mission critical applications. Azure Cosmos DB provides the Graph API for applications that need to model, query, and traverse large graphs efficiently using the Gremlin standard.
 
-(short, 1-3 sentenced, description of the project)
+## About this sample: Using the Gremlin.Net open-source connector with Cosmos DB and its advantages.
 
-## Features
-
-This project framework provides the following features:
-
-* Feature 1
-* Feature 2
-* ...
+This sample uses the open-source [Gremlin.Net driver](https://github.com/FlorianHockmann/Gremlin.Net) to connect to an Azure Cosmos DB Graph API account and run some basic Create, Read, Update, Delete Gremlin queries. 
 
 ## Getting Started
 
 ### Prerequisites
 
-(ideally very short, if any)
+The only dependency is the [Gremlin.Net driver](https://www.nuget.org/packages/Gremlin.Net/), which you can install with the following instructions:
 
-- OS
-- Library version
-- ...
+- Using .NET CLI:
 
-### Installation
+    ```
+    dotnet add package Gremlin.Net --version 3.3.1
+    ```
 
-(ideally very short)
+- Using Powershell Package Manager:
 
-- npm install [package name]
-- mvn install
-- ...
+    ```
+    Install-Package Gremlin.Net -Version 3.3.1
+    ```
+## Code
+The following dictionary, under `Program.cs`, includes all the Gremlin queries that will be executed serially:
+```cs
+Dictionary<string, string> gremlinQueries = new Dictionary<string, string>
+{
+    { "Cleanup",        "g.V().drop()" },
+    { "AddVertex 1",    "g.addV('person').property('id', 'thomas').property('firstName', 'Thomas').property('age', 44)" },
+    { "AddVertex 2",    "g.addV('person').property('id', 'mary').property('firstName', 'Mary').property('lastName', 'Andersen').property('age', 39)" },
+    { "AddVertex 3",    "g.addV('person').property('id', 'ben').property('firstName', 'Ben').property('lastName', 'Miller')" },
+    { "AddVertex 4",    "g.addV('person').property('id', 'robin').property('firstName', 'Robin').property('lastName', 'Wakefield')" },
+    { "AddEdge 1",      "g.V('thomas').addE('knows').to(g.V('mary'))" },
+    { "AddEdge 2",      "g.V('thomas').addE('knows').to(g.V('ben'))" },
+    { "AddEdge 3",      "g.V('ben').addE('knows').to(g.V('robin'))" },
+    { "UpdateVertex",   "g.V('thomas').property('age', 44)" },
+    { "CountVertices",  "g.V().count()" },
+    { "Filter Range",   "g.V().hasLabel('person').has('age', gt(40))" },
+    { "Project",        "g.V().hasLabel('person').values('firstName')" },
+    { "Sort",           "g.V().hasLabel('person').order().by('firstName', decr)" },
+    { "Traverse",       "g.V('thomas').outE('knows').inV().hasLabel('person')" },
+    { "Traverse 2x",    "g.V('thomas').outE('knows').inV().hasLabel('person').outE('knows').inV().hasLabel('person')" },
+    { "Loop",           "g.V('thomas').repeat(out()).until(has('id', 'robin')).path()" },
+    { "DropEdge",       "g.V('thomas').outE('knows').where(inV().has('id', 'mary')).drop()" },
+    { "CountEdges",     "g.E().count()" },
+    { "DropVertex",     "g.V('thomas').drop()" },
+};
+```
 
-### Quickstart
-(Add steps to get up and running quickly)
-
-1. git clone [repository clone url]
-2. cd [respository name]
-3. ...
-
-
-## Demo
-
-A demo app is included to show how to use the project.
-
-To run the demo, follow these steps:
-
-(Add steps to start up the demo)
-
-1.
-2.
-3.
-
-## Resources
-
-(Any additional resources or related projects)
-
-- Link to supporting information
-- Link to similar sample
-- ...
+## Graph database support overview
+[Azure Cosmos DB](http://cosmosdb.com) provides you with a fully-managed graph database service with global distribution, elastic scaling of storage and throughput, automatic indexing and query, tunable consistency levels, and supports the Gremlin standard. It also provides the ability to use multiple models like document and graph over the same data. For example, you can use a document collection to store graph data side by side with documents, and use both SQL queries over JSON and Gremlin queries to query the collection. For Graph API, this documentation page lists all the supported Gremlin steps: [Azure Cosmos DB Gremlin Graph Support](https://docs.microsoft.com/en-us/azure/cosmos-db/gremlin-support).
