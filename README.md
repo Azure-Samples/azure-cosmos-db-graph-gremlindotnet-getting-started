@@ -3,13 +3,13 @@ Azure Cosmos DB is a globally distributed, multi-model database for mission crit
 
 ## About this sample: Using the Gremlin.Net open-source connector with Cosmos DB and its advantages.
 
-This sample uses the open-source [Gremlin.Net driver](https://github.com/FlorianHockmann/Gremlin.Net) to connect to an Azure Cosmos DB Graph API account and run some basic Create, Read, Update, Delete Gremlin queries. 
+This sample uses the open-source [Gremlin.Net driver](https://github.com/apache/tinkerpop/tree/master/gremlin-dotnet) to connect to an Azure Cosmos DB Graph API account and run some basic Create, Read, Update, Delete Gremlin queries. 
 
 ## Getting Started
 
 ### Prerequisites
 
-The only dependency is the [Gremlin.Net driver](https://www.nuget.org/packages/Gremlin.Net/), which you can install with the following instructions:
+The only dependency is the [Gremlin.Net driver](http://tinkerpop.apache.org/docs/3.3.0/reference/#gremlin-DotNet), which you can install with the following instructions:
 
 - Using .NET CLI:
 
