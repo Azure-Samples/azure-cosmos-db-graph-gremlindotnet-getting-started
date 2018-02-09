@@ -22,6 +22,13 @@ The only dependency is the [Gremlin.Net driver](http://tinkerpop.apache.org/docs
     ```
     Install-Package Gremlin.Net -Version 3.2.7
     ```
+
+- For *.NET CORE* use the `nuget` [command-line utility](https://docs.microsoft.com/en-us/nuget/install-nuget-client-tools):
+
+    ```
+    nuget install Gremlin.Net -Version 3.2.7
+    ```
+
 ## Code
 The following dictionary, under `Program.cs`, includes all the Gremlin queries that will be executed serially:
 ```cs
