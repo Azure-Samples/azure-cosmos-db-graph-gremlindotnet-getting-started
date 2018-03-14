@@ -14,19 +14,19 @@ The only dependency is the [Gremlin.Net driver](http://tinkerpop.apache.org/docs
 - Using .NET CLI:
 
     ```
-    dotnet add package Gremlin.Net --version 3.2.7
+    dotnet add package Gremlin.Net
     ```
 
 - Using Powershell Package Manager:
 
     ```
-    Install-Package Gremlin.Net -Version 3.2.7
+    Install-Package Gremlin.Net
     ```
 
 - For *.NET CORE* use the `nuget` [command-line utility](https://docs.microsoft.com/en-us/nuget/install-nuget-client-tools):
 
     ```
-    nuget install Gremlin.Net -Version 3.2.7
+    nuget install Gremlin.Net
     ```
 
 ## Code
