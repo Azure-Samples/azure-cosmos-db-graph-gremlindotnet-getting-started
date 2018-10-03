@@ -76,9 +76,7 @@ namespace GremlinNetSample
                     // This includes the following:
                     //  x-ms-status-code            : This is the sub-status code which is specific to Cosmos DB.
                     //  x-ms-total-request-charge   : The total request units charged for processing a request.
-                    Console.WriteLine($"\tStatus Attributes:");
-                    Console.WriteLine($"\t[\"x-ms-status-code\"] : { JsonConvert.SerializeObject(resultSet.StatusAttributes["x-ms-status-code"])}");
-                    Console.WriteLine($"\t[\"x-ms-total-request-charge\"] : { JsonConvert.SerializeObject(resultSet.StatusAttributes["x-ms-total-request-charge"])}");
+                    PrintStatusAttributes(resultSet.StatusAttributes);
                     Console.WriteLine();
                 }
             }
@@ -107,14 +105,34 @@ namespace GremlinNetSample
                 //  x-ms-retry-after-ms         : The number of milliseconds to wait to retry the operation after an initial operation was throttled. This will be populated when
                 //                              : attribute 'x-ms-status-code' returns 429.
                 //  x-ms-activity-id            : Represents a unique identifier for the operation. Commonly used for troubleshooting purposes.
-                Console.WriteLine($"\tStatusAttributes:");
-                Console.WriteLine($"\t[\"x-ms-status-code\"] : { JsonConvert.SerializeObject(e.StatusAttributes["x-ms-status-code"])}");
-                Console.WriteLine($"\t[\"x-ms-total-request-charge\"] : { JsonConvert.SerializeObject(e.StatusAttributes["x-ms-total-request-charge"])}");
-                Console.WriteLine($"\t[\"x-ms-retry-after-ms\"] : { JsonConvert.SerializeObject(e.StatusAttributes["x-ms-retry-after-ms"])}");
-                Console.WriteLine($"\t[\"x-ms-activity-id\"] : { JsonConvert.SerializeObject(e.StatusAttributes["x-ms-activity-id"])}");
+                PrintStatusAttributes(e.StatusAttributes);
+                Console.WriteLine($"\t[\"x-ms-retry-after-ms\"] : { GetValueAsString(e.StatusAttributes, "x-ms-retry-after-ms")}");
+                Console.WriteLine($"\t[\"x-ms-activity-id\"] : { GetValueAsString(e.StatusAttributes, "x-ms-activity-id")}");
 
                 throw;
             }
+        }
+
+        private static void PrintStatusAttributes(IReadOnlyDictionary<string, object> attributes)
+        {
+            Console.WriteLine($"\tStatusAttributes:");
+            Console.WriteLine($"\t[\"x-ms-status-code\"] : { GetValueAsString(attributes, "x-ms-status-code")}");
+            Console.WriteLine($"\t[\"x-ms-total-request-charge\"] : { GetValueAsString(attributes, "x-ms-total-request-charge")}");
+        }
+
+        public static string GetValueAsString(IReadOnlyDictionary<string, object> dictionary, string key)
+        {
+            return JsonConvert.SerializeObject(GetValueOrDefault(dictionary, key));
+        }
+
+        public static object GetValueOrDefault(IReadOnlyDictionary<string, object> dictionary, string key)
+        {
+            if (dictionary.ContainsKey(key))
+            {
+                return dictionary[key];
+            }
+
+            return null;
         }
     }
 }
