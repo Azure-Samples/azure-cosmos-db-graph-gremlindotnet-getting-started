@@ -9,7 +9,7 @@ This sample uses the open-source [Gremlin.Net driver](https://github.com/apache/
 
 ### Prerequisites
 
-The only dependency is the [Gremlin.Net driver](http://tinkerpop.apache.org/docs/3.3.0/reference/#gremlin-DotNet) version `3.4.0-rc2`, which you can install with the following instructions:
+The only dependency is the [Gremlin.Net driver](https://www.nuget.org/packages/Gremlin.Net/3.4.0-rc2) version `3.4.0-rc2`, which you can install with the following instructions:
 
 - Using .NET CLI:
 
@@ -20,7 +20,7 @@ The only dependency is the [Gremlin.Net driver](http://tinkerpop.apache.org/docs
 - Using Powershell Package Manager:
 
     ```
-    Install-Package Gremlin.Net
+    Install-Package Gremlin.Net -Version 3.4.0-rc2
     ```
 
 - For *.NET CORE* use the `nuget` [command-line utility](https://docs.microsoft.com/en-us/nuget/install-nuget-client-tools):
