@@ -1,3 +1,13 @@
+---
+page_type: sample
+languages:
+- csharp
+products:
+- azure
+description: "Azure Cosmos DB is a globally distributed, multi-model database for mission critical applications."
+urlFragment: azure-cosmos-db-graph-gremlindotnet-getting-started
+---
+
 # Getting started with Azure Cosmos DB: Graph API
 Azure Cosmos DB is a globally distributed, multi-model database for mission critical applications. Azure Cosmos DB provides the Graph API for applications that need to model, query, and traverse large graphs efficiently using the Gremlin standard.
 
