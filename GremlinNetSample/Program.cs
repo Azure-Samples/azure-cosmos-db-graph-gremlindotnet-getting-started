@@ -19,8 +19,8 @@ namespace GremlinNetSample
         private string EndpointUrl = Environment.GetEnvironmentVariable("EndpointUrl");
         private string PrimaryKey = Environment.GetEnvironmentVariable("PrimaryKey");
         private static int port = 443;
-        private static string database = "your-database";
-        private static string collection = "your-collection-or-graph";
+        private static string database = "your-database-name";
+        private static string container = "your-container-or-graph-name";
         // </configureConnectivity>
 
         // Gremlin queries that will be executed.
@@ -54,7 +54,7 @@ namespace GremlinNetSample
         {
             // <defineClientandServerObjects>
             var gremlinServer = new GremlinServer(EndpointUrl, port, enableSsl: true, 
-                                                    username: "/dbs/" + database + "/colls/" + collection, 
+                                                    username: "/dbs/" + database + "/colls/" + container, 
                                                     password: PrimaryKey);
 
             using (var gremlinClient = new GremlinClient(gremlinServer, new GraphSON2Reader(), new GraphSON2Writer(), GremlinClient.GraphSON2MimeType))
