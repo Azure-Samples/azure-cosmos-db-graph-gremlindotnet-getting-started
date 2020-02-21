@@ -16,8 +16,8 @@ namespace GremlinNetSample
         // Azure Cosmos DB Configuration variables
         // Replace the values in these variables to your own.
         // <configureConnectivity>
-        private string hostname = Environment.GetEnvironmentVariable("hostname");
-        private string authKey = Environment.GetEnvironmentVariable("authKey");
+        private string EndpointUrl = Environment.GetEnvironmentVariable("EndpointUrl");
+        private string PrimaryKey = Environment.GetEnvironmentVariable("PrimaryKey");
         private static int port = 443;
         private static string database = "your-database";
         private static string collection = "your-collection-or-graph";
@@ -53,9 +53,9 @@ namespace GremlinNetSample
         static void Main(string[] args)
         {
             // <defineClientandServerObjects>
-            var gremlinServer = new GremlinServer(hostname, port, enableSsl: true, 
+            var gremlinServer = new GremlinServer(EndpointUrl, port, enableSsl: true, 
                                                     username: "/dbs/" + database + "/colls/" + collection, 
-                                                    password: authKey);
+                                                    password: PrimaryKey);
 
             using (var gremlinClient = new GremlinClient(gremlinServer, new GraphSON2Reader(), new GraphSON2Writer(), GremlinClient.GraphSON2MimeType))
             {
