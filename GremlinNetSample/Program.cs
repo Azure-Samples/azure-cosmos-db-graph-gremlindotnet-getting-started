@@ -16,9 +16,9 @@ namespace GremlinNetSample
         // Azure Cosmos DB Configuration variables
         // Replace the values in these variables to your own.
         // <configureConnectivity>
-        private static string hostname = "your-endpoint.gremlin.cosmosdb.azure.com";
+        private string hostname = Environment.GetEnvironmentVariable("hostname");
+        private string authKey = Environment.GetEnvironmentVariable("authKey");
         private static int port = 443;
-        private static string authKey = "your-authentication-key";
         private static string database = "your-database";
         private static string collection = "your-collection-or-graph";
         // </configureConnectivity>
