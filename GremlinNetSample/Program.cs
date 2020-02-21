@@ -15,13 +15,16 @@ namespace GremlinNetSample
     {
         // Azure Cosmos DB Configuration variables
         // Replace the values in these variables to your own.
+        // <configureConnectivity>
         private static string hostname = "your-endpoint.gremlin.cosmosdb.azure.com";
         private static int port = 443;
         private static string authKey = "your-authentication-key";
         private static string database = "your-database";
         private static string collection = "your-collection-or-graph";
+        // </configureConnectivity>
 
         // Gremlin queries that will be executed.
+        // <defineQueries>
         private static Dictionary<string, string> gremlinQueries = new Dictionary<string, string>
         {
             { "Cleanup",        "g.V().drop()" },
@@ -44,16 +47,21 @@ namespace GremlinNetSample
             { "CountEdges",     "g.E().count()" },
             { "DropVertex",     "g.V('thomas').drop()" },
         };
+        // </defineQueries>
 
         // Starts a console application that executes every Gremlin query in the gremlinQueries dictionary. 
         static void Main(string[] args)
         {
+            // <defineClientandServerObjects>
             var gremlinServer = new GremlinServer(hostname, port, enableSsl: true, 
                                                     username: "/dbs/" + database + "/colls/" + collection, 
                                                     password: authKey);
 
             using (var gremlinClient = new GremlinClient(gremlinServer, new GraphSON2Reader(), new GraphSON2Writer(), GremlinClient.GraphSON2MimeType))
             {
+            // </defineClientandServerObjects>
+                
+                // <executeQueries>
                 foreach (var query in gremlinQueries)
                 {
                     Console.WriteLine(String.Format("Running this query: {0}: {1}", query.Key, query.Value));
@@ -79,6 +87,7 @@ namespace GremlinNetSample
                     PrintStatusAttributes(resultSet.StatusAttributes);
                     Console.WriteLine();
                 }
+                // </executeQueries>
             }
 
             // Exit program
