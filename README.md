@@ -39,6 +39,18 @@ The only dependency is the [Gremlin.Net driver](https://www.nuget.org/packages/G
     nuget install Gremlin.Net
     ```
 
+## Input your database identifiers
+
+The program will take the database connection parameters from the environment variables. You'll need to specify the following variables:
+- `Host`: The endpoint to your Gremlin database. This has the following format `xxxx.gremlin.cosmos.azure.com`
+- `PrimaryKey`: Your unique access key to your database. This is a long, secure combination of characters and numbers.
+- `DatabaseName`: The name of your database that groups your containers.
+- `ContainerName`: The name of the container, also known as graph, where your data is direclty stored.
+
+You can set an environment variable like this: 
+- Powershell: `$env:YourVariable="value"`
+- CMD: `setx YourVariable="value"`
+
 ## Code
 The following dictionary, under `Program.cs`, includes all the Gremlin queries that will be executed serially:
 ```cs
