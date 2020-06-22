@@ -16,11 +16,47 @@ namespace GremlinNetSample
         // Azure Cosmos DB Configuration variables
         // Replace the values in these variables to your own.
         // <configureConnectivity>
-        private static string EndpointUrl = Environment.GetEnvironmentVariable("EndpointUrl");
-        private static string PrimaryKey = Environment.GetEnvironmentVariable("PrimaryKey");
-        private static int port = 443;
-        private static string database = "your-database-name";
-        private static string container = "your-container-or-graph-name";
+        private static string Host => Environment.GetEnvironmentVariable("Host") ?? throw new ArgumentException("Missing env var: Host");
+        private static string PrimaryKey => Environment.GetEnvironmentVariable("PrimaryKey") ?? throw new ArgumentException("Missing env var: PrimaryKey");
+        private static string Database => Environment.GetEnvironmentVariable("DatabaseName") ?? throw new ArgumentException("Missing env var: DatabaseName");
+        private static string Container => Environment.GetEnvironmentVariable("ContainerName") ?? throw new ArgumentException("Missing env var: ContainerName");
+
+        private static bool EnableSSL
+        {
+            get
+            {
+                if (Environment.GetEnvironmentVariable("EnableSSL") == null)
+                {
+                    return true;
+                }
+
+                if (!bool.TryParse(Environment.GetEnvironmentVariable("EnableSSL"), out bool value))
+                {
+                    throw new ArgumentException("Invalid env var: EnableSSL is not a boolean");
+                }
+
+                return value;
+            }
+        }
+
+        private static int Port
+        {
+            get
+            {
+                if (Environment.GetEnvironmentVariable("Port") == null)
+                {
+                    return 443;
+                }
+
+                if (!int.TryParse(Environment.GetEnvironmentVariable("Port"), out int port))
+                {
+                    throw new ArgumentException("Invalid env var: Port is not an integer");
+                }
+
+                return port;
+            } 
+        }
+
         // </configureConnectivity>
 
         // Gremlin queries that will be executed.
@@ -53,8 +89,10 @@ namespace GremlinNetSample
         static void Main(string[] args)
         {
             // <defineClientandServerObjects>
-            var gremlinServer = new GremlinServer(EndpointUrl, port, enableSsl: true, 
-                                                    username: "/dbs/" + database + "/colls/" + container, 
+            string containerLink = "/dbs/" + Database + "/colls/" + Container;
+            Console.WriteLine($"Connecting to: host: {Host}, port: {Port}, container: {containerLink}, ssl: {EnableSSL}");
+            var gremlinServer = new GremlinServer(Host, Port, enableSsl: EnableSSL, 
+                                                    username: containerLink, 
                                                     password: PrimaryKey);
 
             using (var gremlinClient = new GremlinClient(gremlinServer, new GraphSON2Reader(), new GraphSON2Writer(), GremlinClient.GraphSON2MimeType))
@@ -84,6 +122,7 @@ namespace GremlinNetSample
                     // This includes the following:
                     //  x-ms-status-code            : This is the sub-status code which is specific to Cosmos DB.
                     //  x-ms-total-request-charge   : The total request units charged for processing a request.
+                    //  x-ms-total-server-time-ms   : The total time executing processing the request on the server.
                     PrintStatusAttributes(resultSet.StatusAttributes);
                     Console.WriteLine();
                 }
@@ -126,6 +165,7 @@ namespace GremlinNetSample
         {
             Console.WriteLine($"\tStatusAttributes:");
             Console.WriteLine($"\t[\"x-ms-status-code\"] : { GetValueAsString(attributes, "x-ms-status-code")}");
+            Console.WriteLine($"\t[\"x-ms-total-server-time-ms\"] : { GetValueAsString(attributes, "x-ms-total-server-time-ms")}");
             Console.WriteLine($"\t[\"x-ms-total-request-charge\"] : { GetValueAsString(attributes, "x-ms-total-request-charge")}");
         }
 
