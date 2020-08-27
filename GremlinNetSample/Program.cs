@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.WebSockets;
 using System.Threading.Tasks;
 using Gremlin.Net.Driver;
 using Gremlin.Net.Driver.Exceptions;
@@ -95,7 +96,28 @@ namespace GremlinNetSample
                                                     username: containerLink, 
                                                     password: PrimaryKey);
 
-            using (var gremlinClient = new GremlinClient(gremlinServer, new GraphSON2Reader(), new GraphSON2Writer(), GremlinClient.GraphSON2MimeType))
+            ConnectionPoolSettings connectionPoolSettings = new ConnectionPoolSettings()
+            {
+                MaxInProcessPerConnection = 10,
+                PoolSize = 30, 
+                ReconnectionAttempts= 3,
+                ReconnectionBaseDelay = TimeSpan.FromMilliseconds(500)
+            };
+
+            var webSocketConfiguration =
+                new Action<ClientWebSocketOptions>(options =>
+                {
+                    options.KeepAliveInterval = TimeSpan.FromSeconds(10);
+                });
+
+
+            using (var gremlinClient = new GremlinClient(
+                gremlinServer, 
+                new GraphSON2Reader(), 
+                new GraphSON2Writer(), 
+                GremlinClient.GraphSON2MimeType, 
+                connectionPoolSettings, 
+                webSocketConfiguration))
             {
             // </defineClientandServerObjects>
                 
