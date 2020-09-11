@@ -156,11 +156,11 @@ namespace GremlinNetSample
             Console.ReadLine();
         }
 
-        private static Task<ResultSet<dynamic>> SubmitRequest(GremlinClient gremlinClient, KeyValuePair<string, string> query)
+        private static async Task<ResultSet<dynamic>> SubmitRequest(GremlinClient gremlinClient, KeyValuePair<string, string> query)
         {
             try
             {
-                return gremlinClient.SubmitAsync<dynamic>(query.Value);
+                return await gremlinClient.SubmitAsync<dynamic>(query.Value);
             }
             catch (ResponseException e)
             {
