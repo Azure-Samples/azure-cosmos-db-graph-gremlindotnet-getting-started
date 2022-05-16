@@ -51,6 +51,14 @@ You can set an environment variable like this:
 - Powershell: `$env:YourVariable="value"`
 - CMD: `setx YourVariable="value"`
 
+# Build & Run
+
+From the command prompt where you specified the input environment variables:
+1. Go to `GremlinNetSample` folder.
+1. Run this command: `dotnet run`
+
+The sample will run the sequence of queries and print the results and response attributes returned by the Cosmos DB Gremlin API.
+
 ## Code
 The following dictionary, under `Program.cs`, includes all the Gremlin queries that will be executed serially:
 ```cs
