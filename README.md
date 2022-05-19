@@ -19,7 +19,7 @@ This sample uses the open-source [Gremlin.Net driver](https://github.com/apache/
 
 ### Prerequisites
 
-The only dependency is the [Gremlin.Net driver](https://www.nuget.org/packages/Gremlin.Net/3.4.6) version `3.4.6`, which you can install with the following instructions:
+The only dependency is the [Gremlin.Net driver](https://www.nuget.org/packages/Gremlin.Net/3.4.13) version `3.4.13`, which you can install with the following instructions:
 
 - Using .NET CLI:
 
@@ -30,7 +30,7 @@ The only dependency is the [Gremlin.Net driver](https://www.nuget.org/packages/G
 - Using Powershell Package Manager:
 
     ```
-    Install-Package Gremlin.Net -Version 3.4.6
+    Install-Package Gremlin.Net -Version 3.4.13
     ```
 
 - For *.NET CORE* use the `nuget` [command-line utility](https://docs.microsoft.com/en-us/nuget/install-nuget-client-tools):
@@ -50,6 +50,14 @@ The program will take the database connection parameters from the environment va
 You can set an environment variable like this: 
 - Powershell: `$env:YourVariable="value"`
 - CMD: `setx YourVariable="value"`
+
+# Build & Run
+
+From the command prompt where you specified the input environment variables:
+1. Go to `GremlinNetSample` folder.
+1. Run this command: `dotnet run`
+
+The sample will run the sequence of queries and print the results and response attributes returned by the Cosmos DB Gremlin API.
 
 ## Code
 The following dictionary, under `Program.cs`, includes all the Gremlin queries that will be executed serially:
